@@ -30,8 +30,21 @@ while True:
 
     result = detector.detect(mp_image)
 
+    # Count faces
+    face_count = len(result.detections)
+
+    # Face status
+    if face_count == 0:
+        text = "No Face Detected"
+    elif face_count == 1:
+        text = "1 Face Detected"
+    else:
+        text = f"{face_count} Faces Detected"
+
+    # Draw face boxes
     if result.detections:
         for detection in result.detections:
+
             box = detection.bounding_box
 
             x = box.origin_x
@@ -47,26 +60,16 @@ while True:
                 2
             )
 
-        cv2.putText(
-            frame,
-            "Face Detected",
-            (20, 40),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1,
-            (0, 255, 0),
-            2
-        )
-
-    else:
-        cv2.putText(
-            frame,
-            "No Face Detected",
-            (20, 40),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1,
-            (0, 0, 255),
-            2
-        )
+    # Show face count
+    cv2.putText(
+        frame,
+        text,
+        (20, 40),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (0, 255, 0),
+        2
+    )
 
     cv2.imshow("SmartRecruit Face Detection", frame)
 
